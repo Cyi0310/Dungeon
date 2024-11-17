@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9908ab5638c5542428e1ed419ecff55f, type: 3}
+  m_Name: EntityDatas
+  m_EditorClassIdentifier: 
+  <Empty>k__BackingField:
+    <EntityType>k__BackingField: 0
+    <BaseEntityView>k__BackingField: {fileID: 0}
+  <Player>k__BackingField:
+    <EntityType>k__BackingField: 1
+    <BaseEntityView>k__BackingField: {fileID: 5856055962552843149, guid: 5c613971b1a01534cab1b7109046853b, type: 3}
+  <Monster>k__BackingField:
+    <EntityType>k__BackingField: 2
+    <BaseEntityView>k__BackingField: {fileID: 396992187594870231, guid: 3dee12b9b5ab41044a7b47635ddea8d1, type: 3}
