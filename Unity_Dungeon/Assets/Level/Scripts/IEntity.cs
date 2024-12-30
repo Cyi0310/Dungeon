@@ -5,7 +5,8 @@ using UnityEngine;
 
 public interface IEntity
 {
-    public void SetView(BaseEntityView view);
+    int NowPosition { get; }
+
     void Execute();
 
     public event Action OnDieHandler;

@@ -14,10 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Empty>k__BackingField:
     <EntityType>k__BackingField: 0
-    <BaseEntityView>k__BackingField: {fileID: 0}
-  <Player>k__BackingField:
-    <EntityType>k__BackingField: 1
-    <BaseEntityView>k__BackingField: {fileID: 5856055962552843149, guid: 5c613971b1a01534cab1b7109046853b, type: 3}
+    <EntityViewPrefab>k__BackingField: {fileID: 0}
   <Monster>k__BackingField:
     <EntityType>k__BackingField: 2
-    <BaseEntityView>k__BackingField: {fileID: 396992187594870231, guid: 3dee12b9b5ab41044a7b47635ddea8d1, type: 3}
+    <EntityViewPrefab>k__BackingField: {fileID: 7892648790909879902, guid: 3dee12b9b5ab41044a7b47635ddea8d1, type: 3}

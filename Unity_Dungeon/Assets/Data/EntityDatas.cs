@@ -6,7 +6,7 @@ using UnityEngine;
 public class EntityDatas : ScriptableObject
 {
     [field: SerializeField] public EntityData Empty{ get; private set; }
-    [field: SerializeField] public EntityData Player { get; private set; }
+    //[field: SerializeField] public EntityData Player { get; private set; }
     [field: SerializeField] public EntityData Monster{ get; private set; }
 
 }
@@ -15,8 +15,6 @@ public class EntityDatas : ScriptableObject
 public class EntityData
 {
     [field: SerializeField] public EntityType EntityType { get; private set; }
-
-    /*View 之後改繼承的VIEW*/
-    [field: SerializeField] public BaseEntityView BaseEntityView { get; private set; }
+    [field: SerializeField] public GameObject EntityViewPrefab { get; private set; }
 }
 

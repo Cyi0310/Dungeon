@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    [SerializeField] private CharacterInput input;
     [SerializeField] private CharacterView characterView;
     [SerializeField] private TileMgr tileMgr;
 
     private IReadOnlyDictionary<EntityType, SpawnEntityComponent> SpawnEntityComponentMap { get; set; }
     public void Init(EntityDatas entityDatas)
     {
+        characterView.Init(input);
         SpawnEntityComponentMap = new Dictionary<EntityType, SpawnEntityComponent>()
         {
-          {EntityType.Empty, new SpawnEntityComponent(entityDatas.Empty ,  null)},
-
-          //TODO: 之後優化成由這邊生成Character
-          {EntityType.Player, new SpawnEntityComponent(entityDatas.Player , characterView.Main)},
-          {EntityType.Monster, new SpawnEntityComponent(entityDatas.Monster, new Monster())},
+          {EntityType.Empty, new SpawnEntityComponent(entityDatas.Empty.EntityViewPrefab,  null)},
+          {EntityType.Player, new SpawnEntityComponent(characterView.gameObject, characterView.Main)},
+          {EntityType.Monster, new SpawnEntityComponent(entityDatas.Monster.EntityViewPrefab, new Monster())},
         };
         tileMgr.Init(SpawnEntityComponentMap);
-        characterView.Init(tileMgr.TryGetTileHandler);
+        tileMgr.CharacterCanMoveHandler += characterView.OnCanMove;
+        characterView.TryGetTileHandler = tileMgr.TryGetTileHandler;
     }
 
     public void ResetToDefault()
     {
         characterView.ResetToDefault();
     }
-
 }

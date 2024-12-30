@@ -15,7 +15,6 @@ public class Character : IEntity, IHealth
     public int NowPosition { get; private set; }
     public Ability MainAability { get; }
 
-    private BaseEntityView view;
 
     public event Action OnDieHandler;
 
@@ -39,11 +38,6 @@ public class Character : IEntity, IHealth
         NowPosition = defaultPosition;
     }
 
-    public void SetView(BaseEntityView view)
-    {
-        this.view = view;
-    }
-
     public bool OnHeal(int value)
     {
         healthComponents.TakeHeal(value);
@@ -58,7 +52,6 @@ public class Character : IEntity, IHealth
 
     private void OnDie()
     {
-        view.Die();
         OnDieHandler?.Invoke();
     }
 
@@ -69,19 +62,14 @@ public class Character : IEntity, IHealth
 
     public void Move()
     {
-        /*¯à¥H¤£¦Pªº¾c¤l¨«¤£¦Pªº¨B¼Æ*/
+        /*èƒ½ä»¥ä¸åŒçš„é‹å­èµ°ä¸åŒçš„æ­¥æ•¸*/
         Debug.Log($"Move: {NowPosition}");
         NowPosition++;
     }
 
-    public void Attack()
-    {
-        Debug.Log("Attack");
-    }
-
     public void Execute()
     {
-        Debug.Log("ª±®a¯¸¨ìTILE¤W¤F");
+        Debug.Log("ç©å®¶ç«™åˆ°TILEä¸Šäº†");
     }
 
     public void ResetToDefault()

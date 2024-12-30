@@ -8,9 +8,9 @@ public class Monster : IEntity, IHealth
 {
     private readonly HealthComponents healthComponents;
 
-    public int atk = 100;
+    public int NowPosition { get; private set; }
 
-    private BaseEntityView view;
+    public int atk = 100;
 
     public event Action OnDieHandler;
     public Monster()
@@ -23,9 +23,9 @@ public class Monster : IEntity, IHealth
         healthComponents.OnDieHandler += Die;
     }
 
-    public void SetView(BaseEntityView view)
+    public void SetNowPosition(int nowPosition)
     {
-        this.view = view;
+        NowPosition = nowPosition;
     }
 
     public void Execute()
@@ -47,7 +47,6 @@ public class Monster : IEntity, IHealth
 
     private void Die()
     {
-        view.Die();
         OnDieHandler?.Invoke();
         Debug.Log("Die call view boom");
     }

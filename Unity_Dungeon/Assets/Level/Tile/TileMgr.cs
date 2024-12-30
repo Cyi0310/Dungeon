@@ -1,26 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TileMgr : MonoBehaviour
 {
+    [SerializeField] private Transform root;
     //[SerializeField] private int totalTilesCount = 10;
+    [SerializeField] private Transform basic;
+    [SerializeField] private float distance = 15f;
+    [SerializeField] private Tile tilePrefab;
     [field: SerializeField] public EntityType[] TileOfEntityTypes { get; private set; }
-    [SerializeField] private Tile[] tiles;
-
-    private List<Tile> nowTiles;
+    private IReadOnlyList<Tile> tiles;
 
     public delegate bool TryGetTileDelegate(int index, out Tile tile);
     public TryGetTileDelegate TryGetTileHandler { get; private set; }
 
+    public event Action CharacterCanMoveHandler;
+    private IEntity player;
+
     public void Init(IReadOnlyDictionary<EntityType, SpawnEntityComponent> spawnEntityComponentMap)
     {
-        if (tiles.Length != TileOfEntityTypes.Length)
-        {
-            throw new Exception($"tiles.Length: {tiles.Length} != tileOfEntityTypes.Length: {TileOfEntityTypes.Length}");
-        }
+        tiles = SpawnTiles();
 
         TryGetTileHandler = TryGetTile;
         SpawnEntity(spawnEntityComponentMap, out var entitys);
@@ -30,38 +30,52 @@ public class TileMgr : MonoBehaviour
 
             if (entitys[i] != null)
             {
-                //Á×§KClosure§ï­È
+                //é¿å…Closureæ”¹å€¼
                 var index = i;
                 entitys[i].OnDieHandler += () => EntityDie(index);
             }
         }
     }
 
+    private IReadOnlyList<Tile> SpawnTiles()
+    {
+        var tiles = new Tile[TileOfEntityTypes.Length];
+        for (int i = 0; i < TileOfEntityTypes.Length; i++)
+        {
+            var offset = Vector3.forward * distance * i;
+            var tile = Instantiate(tilePrefab, basic.position + offset, basic.rotation, root);
+            tiles[i] = tile;
+        }
+        return tiles;
+    }
+
     private void SpawnEntity(IReadOnlyDictionary<EntityType, SpawnEntityComponent> spawnEntityComponentMap, out IList<IEntity> tileEntitys)
     {
         tileEntitys = new List<IEntity>();
-        for (int i = 0; i < tiles.Length; i++)
+        for (int i = 0; i < tiles.Count; i++)
         {
             var entityType = TileOfEntityTypes[i];
             IEntity nowEntity = null;
             if (spawnEntityComponentMap.TryGetValue(entityType, out var entity))
             {
-                if (entity.EntityData.BaseEntityView != null)
+                if (entity.EntityViewPrefab != null)
                 {
                     if (entityType == EntityType.Player)
                     {
-                        nowEntity = entity.tileEntity;
+                        nowEntity = entity.TileEntity;
+                        player = nowEntity;
                     }
                     else if (entityType == EntityType.Monster)
                     {
-                        var view = Instantiate(entity.EntityData.BaseEntityView, tiles[i].transform.position, Quaternion.identity);
-                        view.Init();
-                        nowEntity = new Monster();
-                        nowEntity.SetView(view);
+                        var prefab = Instantiate(entity.EntityViewPrefab, tiles[i].transform.position, Quaternion.identity);
+                        var view = prefab.GetComponent<MonsterView>();
+                        var monster = new Monster();
+                        nowEntity = monster;
+                        view.SetEntity(monster);
                     }
                     else
                     {
-                        nowEntity = entity.tileEntity;
+                        nowEntity = entity.TileEntity;
                     }
                 }
             }
@@ -71,12 +85,16 @@ public class TileMgr : MonoBehaviour
 
     private void EntityDie(int index)
     {
-        tiles[index].SetNowEntity( null);
+        if (player.NowPosition + 1 == index)
+        {
+            CharacterCanMoveHandler.Invoke();
+        }
+        tiles[index].SetNowEntity(null);
     }
 
     private bool TryGetTile(int index, out Tile tile)
     {
-        if (index >= tiles.Length)
+        if (index >= tiles.Count)
         {
             tile = null;
             return false;

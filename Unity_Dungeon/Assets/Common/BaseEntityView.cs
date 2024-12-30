@@ -2,13 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEntityView : MonoBehaviour
+public abstract class BaseEntityView<TEntity> : MonoBehaviour where TEntity : IEntity
 {
-    public abstract void Init();
-
-    public void Die()
-    {
-        Destroy(gameObject);
-    }
-
+    public abstract void SetEntity(TEntity entity);
 }
