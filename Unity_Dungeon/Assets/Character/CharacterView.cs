@@ -12,6 +12,7 @@ using UnityEngine.TextCore.Text;
 public class CharacterView : BaseEntityView<Character>, IHealth
 {
     private CharacterInput input;
+    [field: SerializeField] public Transform Head { private set; get; } //TODO 然後再 ASSIGN WEAPON OR SHILED
 
     /*TODO: 之後改成用其他類別*/
     [SerializeField] private Hand rightHand; //TODO 然後再 ASSIGN WEAPON OR SHILED
@@ -34,12 +35,10 @@ public class CharacterView : BaseEntityView<Character>, IHealth
 
     //private Sequence sequence;
 
-    public Character Main { get; private set; }
 
     //TODO Send Character data to here
     public void Init(CharacterInput input)
     {
-        SetEntity(new Character());
         handMoveToken = new CancellationTokenSource();
 
         rightHand.Init();
@@ -70,25 +69,24 @@ public class CharacterView : BaseEntityView<Character>, IHealth
 
     public override void SetEntity(Character entity)
     {
-        Main = entity;
-        Main.SetData(0);
+        Entity = entity;
     }
 
     public void Shield(Button button)
     {
-        var targetIndex = Main.NowPosition + 1;
+        var targetIndex = Entity.NowPosition + 1;
         if (!TryGetTileHandler.Invoke(targetIndex, out var target))
         {
             return;
         }
 
-        var entity = target.NowEntity;
+        var entity = target.NowEntityView;
         if (entity is Monster monster)
         {
             /*todo shield*/
         }
 
-        Main.Shield();
+        Entity.Shield();
         Debug.Log("View Shield");
     }
 
@@ -99,10 +97,10 @@ public class CharacterView : BaseEntityView<Character>, IHealth
         handMoveToken = new CancellationTokenSource();
         isCanDoAction.Value = false;
         int targetIndex = 0;
-        for (int i = 1; i <= Main.MainAability.WalkCount; i++)
+        for (int i = 1; i <= Entity.MainAability.WalkCount; i++)
         {
-            targetIndex = Main.NowPosition + i;
-            if (!TryGetTileHandler.Invoke(targetIndex, out var target) || target.NowEntity != null)
+            targetIndex = Entity.NowPosition + i;
+            if (!TryGetTileHandler.Invoke(targetIndex, out var target) || target.NowEntityView != null)
             {
                 isCanDoMove.Value = false;
                 break;
@@ -114,14 +112,14 @@ public class CharacterView : BaseEntityView<Character>, IHealth
             transform.position = target.transform.position;
 
             target.Execute();
-            Main.Move();
+            Entity.Move();
         }
 
         /*Judge is front has item will inactive*/
         isCanDoAction.Value = true;
 
-        targetIndex = Main.NowPosition + 1;
-        if (TryGetTileHandler.Invoke(targetIndex, out var tile) && tile.NowEntity != null)
+        targetIndex = Entity.NowPosition + 1;
+        if (TryGetTileHandler.Invoke(targetIndex, out var tile) && tile.NowEntityView != null)
         {
             isCanDoMove.Value = false;
         }
@@ -143,21 +141,21 @@ public class CharacterView : BaseEntityView<Character>, IHealth
 
     public bool OnHeal(int value)
     {
-        return Main.OnHeal(value);
+        return Entity.OnHeal(value);
     }
 
     public bool OnHit(int value)
     {
-        return Main.OnHit(value);
+        return Entity.OnHit(value);
     }
 
     public void ResetToDefault()
     {
         isCanDoAction.Value = true;
-        Main.ResetToDefault();
+        Entity.ResetToDefault();
         input.ResetToDefault();
 
-        TryGetTileHandler.Invoke(Main.NowPosition, out var target);
+        TryGetTileHandler.Invoke(Entity.NowPosition, out var target);
         transform.position = target.transform.position;
 
         if (moveCoroutine != null)

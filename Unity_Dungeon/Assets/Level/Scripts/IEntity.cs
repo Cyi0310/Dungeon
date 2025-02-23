@@ -8,6 +8,7 @@ public interface IEntity
     int NowPosition { get; }
 
     void Execute();
-
+    void SetNowPosition(int nowPosition);
+    
     public event Action OnDieHandler;
 }

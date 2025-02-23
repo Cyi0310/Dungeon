@@ -14,7 +14,7 @@ public class WaitDoAction
     }
 }
 
-public record SpawnEntityComponent(GameObject EntityViewPrefab, IEntity TileEntity);
+public record SpawnEntityComponent(GameObject EntityViewPrefab);
 
 public enum ActiveType
 {

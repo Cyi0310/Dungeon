@@ -12,7 +12,7 @@ public class Character : IEntity, IHealth
 
     private HealthComponents healthComponents;
 
-    public int NowPosition { get; private set; }
+    public int NowPosition { get; protected set; }
     public Ability MainAability { get; }
 
 
@@ -33,9 +33,9 @@ public class Character : IEntity, IHealth
         healthComponents.OnDieHandler += OnDie;
     }
 
-    public void SetData(int defaultPosition)
+    public void SetNowPosition(int nowPosition)
     {
-        NowPosition = defaultPosition;
+        NowPosition = nowPosition;
     }
 
     public bool OnHeal(int value)

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour, ITile
 {
-    public IEntity NowEntity { get; protected set; }
-    public virtual void SetNowEntity(IEntity nowEntity)
+    public IBaseEntityView NowEntityView { get; protected set; }
+    public virtual void SetNowEntityView(IBaseEntityView nowEntityView)
     {
-        this.NowEntity = nowEntity;
+        this.NowEntityView = nowEntityView;
     }
 
     public void Execute()

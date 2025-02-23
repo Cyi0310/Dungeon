@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,16 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EntityDatas", menuName = "ScriptableObjects/Entity/EntityDatas")]
 public class EntityDatas : ScriptableObject
 {
-    [field: SerializeField] public EntityData Empty{ get; private set; }
-    //[field: SerializeField] public EntityData Player { get; private set; }
-    [field: SerializeField] public EntityData Monster{ get; private set; }
-
+    [SerializedDictionary("EntityType", "Prefab")]
+    [field:SerializeField] public SerializedDictionary<EntityType, GameObject> EntityPrefabMap { private set; get; }
 }
-
-[System.Serializable]
-public class EntityData
-{
-    [field: SerializeField] public EntityType EntityType { get; private set; }
-    [field: SerializeField] public GameObject EntityViewPrefab { get; private set; }
-}
-

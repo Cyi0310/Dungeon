@@ -6,15 +6,14 @@ public class MonsterView : BaseEntityView<Monster>, IHealth
 {
     [SerializeField] private Transform hand;
     [SerializeField] private Weapon weapon;
-    private Monster Main { get; set; }
 
     public override void SetEntity(Monster character)
     {
         weapon.Init(gameObject, 10);
 
         /*TODO: 可以在Base class 用 generic，但序列化關聯沒辦法使用，暫時解法轉型*/
-        Main = character;
-        Main.OnDieHandler += Die;
+        Entity = character;
+        Entity.OnDieHandler += Die;
 
         SwagWeapon().Forget();
     }
@@ -32,12 +31,12 @@ public class MonsterView : BaseEntityView<Monster>, IHealth
 
     public bool OnHeal(int value)
     {
-        return Main.OnHeal(value);
+        return Entity.OnHeal(value);
     }
 
     public bool OnHit(int value)
     {
-        return Main.OnHit(value);
+        return Entity.OnHit(value);
     }
 
     private void Die()

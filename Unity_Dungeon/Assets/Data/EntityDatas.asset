@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9908ab5638c5542428e1ed419ecff55f, type: 3}
   m_Name: EntityDatas
   m_EditorClassIdentifier: 
-  <Empty>k__BackingField:
-    <EntityType>k__BackingField: 0
-    <EntityViewPrefab>k__BackingField: {fileID: 0}
-  <Monster>k__BackingField:
-    <EntityType>k__BackingField: 2
-    <EntityViewPrefab>k__BackingField: {fileID: 7892648790909879902, guid: 3dee12b9b5ab41044a7b47635ddea8d1, type: 3}
+  <EntityPrefabMap>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 0}
+    - Key: 1
+      Value: {fileID: 5856055962552843145, guid: 5c613971b1a01534cab1b7109046853b, type: 3}
+    - Key: 2
+      Value: {fileID: 7892648790909879902, guid: 3dee12b9b5ab41044a7b47635ddea8d1, type: 3}

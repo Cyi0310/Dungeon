@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5b2386cf248d4baf393971b2e55c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Head>k__BackingField: {fileID: 1181386119310435763}
   rightHand: {fileID: 3634634825107669033}
   weapen: {fileID: 7810679577316273813}
   colliderController: {fileID: 8441194367594799775}

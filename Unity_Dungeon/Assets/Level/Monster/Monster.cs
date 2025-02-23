@@ -22,7 +22,6 @@ public class Monster : IEntity, IHealth
         });
         healthComponents.OnDieHandler += Die;
     }
-
     public void SetNowPosition(int nowPosition)
     {
         NowPosition = nowPosition;
