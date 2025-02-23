@@ -1111,6 +1111,7 @@ MonoBehaviour:
   root: {fileID: 1764558051}
   basic: {fileID: 622598075}
   distance: 6.5
+  finalTilePrefab: {fileID: 8792544138789372562, guid: e59d25d94c816ac4c8542018cd1fe46c, type: 3}
   tilePrefab: {fileID: 52142629367859331, guid: d32df11b19a327f41853704b6c274cf7, type: 3}
 --- !u!1 &1547794318
 GameObject:

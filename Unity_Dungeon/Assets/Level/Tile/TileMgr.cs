@@ -10,6 +10,7 @@ public class TileMgr : MonoBehaviour
     //[SerializeField] private int totalTilesCount = 10;
     [SerializeField] private Transform basic;
     [SerializeField] private float distance = 15f;
+    [SerializeField] private Tile finalTilePrefab;
     [SerializeField] private Tile tilePrefab;
 
     private IReadOnlyList<Tile> tiles;
@@ -31,7 +32,7 @@ public class TileMgr : MonoBehaviour
         for (int i = 0; i < entityViews.Count; i++)
         {
             player = tileSettings.TileOfEntityTypes[i] == EntityType.Player ? entityViews[i].GetEntity() : null;
-            if(player != null)
+            if (player != null)
             {
                 break;
             }
@@ -58,8 +59,9 @@ public class TileMgr : MonoBehaviour
         for (int i = 0; i < tileSettings.TileOfEntityTypes.Length; i++)
         {
             var offset = Vector3.forward * distance * i;
-            var tile = Instantiate(tilePrefab, basic.position + offset, basic.rotation, root);
-            tiles[i] = tile;
+            var tile = i == tileSettings.TileOfEntityTypes.Length - 1 ? finalTilePrefab : tilePrefab;
+            var tilePrefabObject = Instantiate(tile, basic.position + offset, basic.rotation, root);
+            tiles[i] = tilePrefabObject;
         }
         return tiles;
     }
@@ -94,7 +96,7 @@ public class TileMgr : MonoBehaviour
         where TEntity : IEntity, new()
         where TView : BaseEntityView<TEntity>
     {
-        var prefabObject= Instantiate(prefab, position, Quaternion.identity);
+        var prefabObject = Instantiate(prefab, position, Quaternion.identity);
         var view = prefabObject.GetComponent<TView>();
         var entity = new TEntity();
         view.SetEntity(entity);
