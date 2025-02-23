@@ -23,7 +23,7 @@ public class CharacterView : BaseEntityView<Character>, IHealth
 
     /*TODO: 之後改成用其他類別*/
     //[SerializeField] private Hand leftHand; //TODO 然後再 ASSIGN WEAPON OR SHILED
-    [SerializeField] private Transform lHand;
+    [SerializeField] private Hand leftHand;
     [SerializeField] private CharacterShield shield;
 
     private readonly Observable<bool> isCanDoMove = new Observable<bool>();
@@ -43,6 +43,9 @@ public class CharacterView : BaseEntityView<Character>, IHealth
 
         rightHand.Init();
         rightHand.SetEquippable(weapen);
+
+        leftHand.Init();
+        leftHand.SetEquippable(shield);
         this.input = input;
 
         //TODO: 之後可以考慮把行為拆成類別
@@ -53,7 +56,7 @@ public class CharacterView : BaseEntityView<Character>, IHealth
             //{ActiveType.Right, (button) => Attack(button).Forget() },
         };
 
-        input.Init(map, rightHand.Move, rightHand.CancellMove);
+        input.Init(map, rightHand, leftHand);
         isCanDoMove.ValueChanged += (b) => input.SwitchInteractable(b, ActiveType.Front);
         isCanDoMove.Value = true;
 

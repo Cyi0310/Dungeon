@@ -8,15 +8,17 @@ using UnityEngine.UI;
 public class CharacterInput : MonoBehaviour
 {
     [SerializeField] private Button frontButtons;
-    //[SerializeField] private InputPanel leftInputPanel;
+    [SerializeField] private InputPanel leftInputPanel;
     [SerializeField] private InputPanel rightInputPanel;
 
     private IReadOnlyDictionary<ActiveType, Button> buttonMap;
 
-    public void Init(IReadOnlyDictionary<ActiveType, Action<Button>> handlerMap, Action<Vector2> onValueChanged, Action onExit)
+    public void Init(IReadOnlyDictionary<ActiveType, Action<Button>> handlerMap, Hand rightHand, Hand leftHand)
     {
-        rightInputPanel.OnDragHandler += onValueChanged;
-        rightInputPanel.OnPointerExitHandler += onExit;
+        rightInputPanel.OnDragHandler += rightHand.Move;
+        rightInputPanel.OnPointerExitHandler += rightHand.CancellMove;
+        leftInputPanel.OnDragHandler += leftHand.Move;
+        leftInputPanel.OnPointerExitHandler += leftHand.CancellMove;
 
         buttonMap = new Dictionary<ActiveType, Button>()
         {
