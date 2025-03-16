@@ -12,9 +12,7 @@
 
 ## 目前進度
 
-![進度gif](ReadMeUse\Dev\Dev_Dungeon.gif)
-
-[影片連結](https://www.youtube.com/watch?v=w1WieoypYws)
+[影片連結](https://youtu.be/cWJmQqwcewQ)
 
 ## 程式架構
 主要程式碼都位於 `Unity_Dungeon/Assets`。
