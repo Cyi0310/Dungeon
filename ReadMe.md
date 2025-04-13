@@ -12,6 +12,8 @@
 
 ## 目前進度
 
+![](https://raw.githubusercontent.com/Cyi0310/Dungeon/main/ReadMeUse/Dev/Dev_Dungeon.gif)
+
 [影片連結](https://youtu.be/cWJmQqwcewQ)
 
 ## 程式架構
