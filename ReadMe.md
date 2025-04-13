@@ -12,7 +12,7 @@
 
 ## 目前進度
 
-![](https://raw.githubusercontent.com/Cyi0310/Dungeon/main/ReadMeUse/Dev/Dev_Dungeon.gif)
+![](https://raw.githubusercontent.com/Cyi0310/Dungeon/main/ReadMeUse/Dev/Dev_Dungeon.gif?v=2)
 
 [影片連結](https://youtu.be/cWJmQqwcewQ)
 
