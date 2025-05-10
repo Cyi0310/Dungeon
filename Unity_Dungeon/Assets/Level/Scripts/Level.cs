@@ -70,4 +70,9 @@ public class Level : MonoBehaviour
         //For each call all view reset to default
         //characterView.ResetToDefault();
     }
+
+    public void Dispose()
+    {
+        tileMgr.Dispose();
+    }
 }

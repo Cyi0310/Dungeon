@@ -5,17 +5,22 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// 類似二維的Slider功能，可用於平面的2維空間
 /// </summary>
-public class InputPanel : BaseEventTrigger
+public class InputPanel : BaseEventTrigger, IPointerMoveHandler
 {
     public event Action<Vector2> OnDragHandler;
+    public event Action<Vector2> OnMoveHandler;
     public event Action OnPointerExitHandler;
+    public event Action OnPointerDownHandler;
 
     [SerializeField] private RectTransform eventTriggerRect;
     private Vector2 currentNormalizedPosition;
-    public void Start()
+
+    private void Start()
     {
         RegisterEvent(EventTriggerType.Drag, Drag);
         RegisterEvent(EventTriggerType.PointerDown, PointerDown);
+        
+        RegisterEvent(EventTriggerType.PointerEnter, Exit);
         RegisterEvent(EventTriggerType.PointerUp, Exit);
         RegisterEvent(EventTriggerType.PointerExit, Exit);
     }
@@ -26,13 +31,14 @@ public class InputPanel : BaseEventTrigger
         {
             if (RectTransformUtility.RectangleContainsScreenPoint(eventTriggerRect, pointerEventData.position))
             {
+                Debug.Log($"{nameof(OnDragHandler)}");
                 UpdateNormalizedPosition(pointerEventData);
                 OnDragHandler?.Invoke(currentNormalizedPosition);
             }
             else
             {
+                Debug.Log($"{nameof(OnPointerExitHandler)}");
                 OnPointerExitHandler?.Invoke();
-                Debug.Log($"OnPointerExitHandler");
             }
         }
     }
@@ -42,14 +48,21 @@ public class InputPanel : BaseEventTrigger
         if (eventData is PointerEventData pointerEventData)
         {
             UpdateNormalizedPosition(pointerEventData);
-            OnDragHandler?.Invoke(currentNormalizedPosition);
+            OnPointerDownHandler?.Invoke();
         }
+    }
+
+    void IPointerMoveHandler.OnPointerMove(PointerEventData pointerEventData)
+    {
+        UpdateNormalizedPosition(pointerEventData);
+        OnMoveHandler?.Invoke(currentNormalizedPosition);
     }
 
     private void Exit(BaseEventData eventData)
     {
+        Debug.Log($"{nameof(Exit)}");
+
         OnPointerExitHandler?.Invoke();
-        Debug.Log($"Exit");
     }
 
     private void UpdateNormalizedPosition(PointerEventData eventData)
@@ -68,7 +81,8 @@ public class InputPanel : BaseEventTrigger
                 (localPoint.y / rectSize.y) + 0.5f
             );
 
-            Debug.Log($"Normalized Position: {currentNormalizedPosition}");
+            Debug.Log($"{nameof(UpdateNormalizedPosition)} Normalized Position: {currentNormalizedPosition}");
         }
     }
+
 }

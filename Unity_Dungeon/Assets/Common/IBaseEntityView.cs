@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IBaseEntityView
 {
     IEntity GetEntity();
+    void Dispose();
 }

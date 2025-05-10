@@ -66,6 +66,14 @@ public class MonsterView : BaseEntityView<Monster>, IHealth
 
     private void Die()
     {
+        swagWeaponToken.Cancel();
+        swagWeaponToken.Dispose();
         Destroy(this.gameObject);
+    }
+
+    public override void Dispose()
+    {
+        swagWeaponToken.Cancel();
+        swagWeaponToken.Dispose();
     }
 }

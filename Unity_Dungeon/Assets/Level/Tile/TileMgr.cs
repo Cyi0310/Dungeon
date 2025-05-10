@@ -122,4 +122,12 @@ public class TileMgr : MonoBehaviour
         tile = tiles[index];
         return true;
     }
+
+    public void Dispose()
+    {
+        foreach (var tile in tiles)
+        {
+            tile.NowEntityView.Dispose();
+        }
+    }
 }

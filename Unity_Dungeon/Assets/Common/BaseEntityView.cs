@@ -7,4 +7,5 @@ public abstract class BaseEntityView<TEntity> : MonoBehaviour, IBaseEntityView w
     protected TEntity Entity { get; set; }
     public abstract void SetEntity(TEntity entity);
     public IEntity GetEntity() => Entity;
+    public abstract void Dispose();
 }

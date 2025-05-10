@@ -20,7 +20,10 @@ public class GameMain : MonoBehaviour
         {
             level.ResetToDefault();
         }
+    }
 
-
+    private void OnDestroy()
+    {
+        level.Dispose();
     }
 }

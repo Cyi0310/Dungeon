@@ -168,10 +168,12 @@ public class CharacterView : BaseEntityView<Character>, IHealth
         }
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
+        rightHand.Dispose();
+        leftHand.Dispose();
+
         isCanDoAction.ValueChanged -= input.SwitchInteractable;
         isCanDoAction.Dispose();
     }
-
 }

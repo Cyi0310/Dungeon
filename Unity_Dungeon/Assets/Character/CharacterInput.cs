@@ -1,8 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CharacterInput : MonoBehaviour
@@ -11,14 +10,34 @@ public class CharacterInput : MonoBehaviour
     [SerializeField] private InputPanel leftInputPanel;
     [SerializeField] private InputPanel rightInputPanel;
 
+    private Hand rightHand;
+    private Hand leftHand;
+
+    private bool CanRightMove
+    {
+        get { return !isRightWaving; }
+    }
+
+    private bool CanRightWaving
+    {
+        get { return !isRightWaving; }
+    }
+
+    private bool isRightWaving;
+
     private IReadOnlyDictionary<ActiveType, Button> buttonMap;
 
     public void Init(IReadOnlyDictionary<ActiveType, Action<Button>> handlerMap, Hand rightHand, Hand leftHand)
     {
-        rightInputPanel.OnDragHandler += rightHand.Move;
-        rightInputPanel.OnPointerExitHandler += rightHand.CancellMove;
-        leftInputPanel.OnDragHandler += leftHand.Move;
-        leftInputPanel.OnPointerExitHandler += leftHand.CancellMove;
+        this.rightHand = rightHand;
+        this.leftHand = leftHand;
+
+        rightInputPanel.OnMoveHandler += (v2) => RightMove(v2);
+        rightInputPanel.OnPointerExitHandler += () => RightCancellMove();
+        rightInputPanel.OnPointerDownHandler += () => RightWaving().Forget();
+
+        leftInputPanel.OnDragHandler += (v2) => LeftMove(v2);
+        leftInputPanel.OnPointerExitHandler += () => LeftCancellMove();
 
         buttonMap = new Dictionary<ActiveType, Button>()
         {
@@ -33,6 +52,43 @@ public class CharacterInput : MonoBehaviour
             }
         }
         ResetToDefault();
+    }
+
+    private void RightMove(Vector2 v2)
+    {
+        if(!CanRightMove)
+        {
+            return;
+        }
+        rightHand.Move(v2).Forget();
+    }
+
+    private void RightCancellMove()
+    {
+        isRightWaving = false;
+        rightHand.CancellMove().Forget();
+    }
+
+    private async UniTaskVoid RightWaving()
+    {
+        if (!CanRightWaving)
+        {
+            return;
+        }
+
+        isRightWaving = true;
+        await rightHand.Waving();
+        isRightWaving = false;
+    }
+
+    private void LeftMove(Vector2 v2)
+    {
+        leftHand.Move(v2).Forget();
+    }
+
+    private void LeftCancellMove()
+    {
+        leftHand.CancellMove().Forget();
     }
 
     public void SwitchInteractable(bool isCanDoAction, ActiveType activeType)
@@ -56,6 +112,4 @@ public class CharacterInput : MonoBehaviour
     {
         //TODO: 把所有button active = true
     }
-
-
 }
