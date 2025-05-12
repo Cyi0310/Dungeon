@@ -127,7 +127,7 @@ public class TileMgr : MonoBehaviour
     {
         foreach (var tile in tiles)
         {
-            tile.NowEntityView.Dispose();
+            tile.NowEntityView?.Dispose();
         }
     }
 }

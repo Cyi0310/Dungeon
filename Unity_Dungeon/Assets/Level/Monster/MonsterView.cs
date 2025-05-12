@@ -64,10 +64,8 @@ public class MonsterView : BaseEntityView<Monster>, IHealth
         return Entity.OnHit(value);
     }
 
-    private void Die()
+    protected override void DieHook()
     {
-        swagWeaponToken.Cancel();
-        swagWeaponToken.Dispose();
         Destroy(this.gameObject);
     }
 

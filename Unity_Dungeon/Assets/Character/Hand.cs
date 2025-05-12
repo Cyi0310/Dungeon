@@ -86,7 +86,7 @@ public class Hand : MonoBehaviour
 
     public void Dispose()
     {
-        handMoveCTS.Cancel();
-        handMoveCTS.Dispose();
+        handMoveCTS?.Cancel();
+        handMoveCTS?.Dispose();
     }
 }
